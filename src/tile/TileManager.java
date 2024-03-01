@@ -29,7 +29,7 @@ public class TileManager {
         try {
             tile[0] =  new Tile();
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/stone.png"));
-            tile[0].collision = true;
+            tile[0].collision = false;
 
             tile[1] =  new Tile();
             tile[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/red.png"));

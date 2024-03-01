@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import item.Item;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -34,7 +35,9 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
+    public AssetSetter aSetter = new AssetSetter(this);
     public Player player = new Player(this, keyH);
+    public Item items[] = new Item[10];
 
 //    Set player's default position
 //    int playerX = 100;
@@ -51,6 +54,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+
+    public void setupGame(){
+        aSetter.setItem();
     }
 
 
@@ -102,9 +109,22 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-
+//        TILE part
         tileM.draw(g2);
+
+//        Item part
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] != null) {
+                items[i].draw(g2,this);
+            }
+            
+        }
+
+
+//        Player part
         player.draw(g2);
+
+
 
         g2.dispose();
 

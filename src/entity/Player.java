@@ -1,5 +1,8 @@
 package entity;
 
+import item.ItemDoorLeft;
+import item.ItemDoorRight;
+import item.ItemSheet;
 import main.GamePanel;
 import main.KeyHandler;
 
@@ -7,6 +10,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.awt.image.BufferedImage;
 
 public class Player extends Entity{
     GamePanel gp;
@@ -14,6 +18,8 @@ public class Player extends Entity{
 
     public final int screenX;
     public final int screenY;
+
+    public int hasProtocols = 0;
 
     public Player(GamePanel gp, KeyHandler keyH){
         this.gp = gp;
@@ -25,6 +31,10 @@ public class Player extends Entity{
         solidPlayerArea = new Rectangle();
         solidPlayerArea.x = 20;
         solidPlayerArea.y = 20;
+
+        solidAreaDefaultX = solidPlayerArea.x;
+        solidAreaDefaultY = solidPlayerArea.y;
+
         solidPlayerArea.width = 20;
         solidPlayerArea.height = 20;
 
@@ -81,6 +91,8 @@ public class Player extends Entity{
 //            CHECK TILE COLLISION
             collisionON = false;
             gp.cChecker.checkTile(this);
+            int itemIdx = gp.cChecker.checkItem(this, true);
+            pickUpItem(itemIdx);
 
 //            IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (collisionON == false) {
@@ -111,6 +123,20 @@ public class Player extends Entity{
                 spriteCounter =0;
             }
         }
+
+    }
+
+    public void pickUpItem(int index){
+        if(index != Integer.MAX_VALUE){
+            if (gp.items[index] instanceof ItemDoorLeft ||gp.items[index] instanceof ItemDoorRight){
+                gp.items[index] = new ItemSheet();
+            }else if (gp.items[index] instanceof ItemSheet){
+                gp.items[index] = new ItemSheet();
+                this.hasProtocols ++;
+
+
+            }
+    }
 
     }
 
